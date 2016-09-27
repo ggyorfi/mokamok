@@ -5,7 +5,7 @@ Zero configuration JavaScript Unit Testing with Mocha, Chai and Sinon
 ## Install
 
 ```bash
-npm install --save-dev mokamok
+$ npm install --save-dev mokamok
 ```
 
 ## Getting Started
@@ -43,7 +43,7 @@ Modify the `package.json` file:
 Run the test:
 
 ```bash
-npm test
+$ npm test
 ```
 
 ## Mokamok API
