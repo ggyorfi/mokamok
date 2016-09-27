@@ -1,0 +1,29 @@
+{
+  "name": "mokamok",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "node test"
+  },
+  "bin": {
+    "mokamok": "bin/mokamok.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "babel-preset-es2015": "^6.14.0",
+    "babel-register": "^6.14.0",
+    "chai": "^3.5.0",
+    "commander": "^2.9.0",
+    "jsdom": "^9.4.5",
+    "jsdom-global": "^2.1.0",
+    "mocha": "^3.0.2",
+    "sinon": "^1.17.5",
+    "sinon-chai": "^2.8.0"
+  },
+  "devDependencies": {
+    "chalk": "^1.1.3",
+    "fs-extra": "^0.30.0"
+  }
+}

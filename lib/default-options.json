@@ -1,0 +1,5 @@
+{
+    "automock": false,
+    "jsdom": false,
+    "watch": false
+}

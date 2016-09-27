@@ -1,0 +1,18 @@
+{
+    "tests": [
+        {
+            "name": "with-long-parameter",
+            "params": "--automock"
+        },
+        {
+            "name": "with-short-parameter",
+            "params": "-m"
+        },
+        {
+            "name": "with-resource-file",
+            "rc": {
+                "automock": true
+            }
+        }
+    ]
+}
