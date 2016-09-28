@@ -8,6 +8,7 @@ var only = process.argv[2];
 var LIBDIR = __dirname + '/.tmp';
 fs.emptyDirSync(LIBDIR);
 fs.copySync(__dirname + '/../index.js', LIBDIR + '/index.js');
+fs.copySync(__dirname + '/../package.json', LIBDIR + '/package.json');
 fs.copySync(__dirname + '/../lib', LIBDIR + '/lib');
 
 var tests = [];
@@ -24,7 +25,7 @@ fs.readdir(__dirname, function (err, files) {
                 var config = readConfig(path + '/config');
                 config.tests.forEach(function (test) {
                     tests.push({
-                        name: (name + '-' + test.name).trim(),
+                        name: (name + (test.name ? '-' + test.name : '')).trim(),
                         path: path,
                         config: Object.assign({
                             params: '',
@@ -54,6 +55,11 @@ function readConfig(file) {
 function next(idx) {
     if (idx >= tests.length) {
         console.log(chalk.green('\nAll done.'));
+        try {
+            fs.removeSync(LIBDIR);
+        } catch (err) {
+            // NOOP
+        }
         return;
     }
 
@@ -82,11 +88,20 @@ function next(idx) {
         process.stdout.write(chunk);
     });
 
+    childProcess.stderr.on('data', function (chunk) {
+        process.stderr.write(chalk.red(chunk));
+    });
+
     testScript.onStart(childProcess);
 
     childProcess.on('exit', function(code, signal) {
         if (signal !== 'SIGTERM' && code !== 0) {
             console.log(chalk.red('\nFailed.'));
+            try {
+                fs.removeSync(LIBDIR);
+            } catch (err) {
+                // NOOP
+            }
             process.exit(code);
         }
         try {

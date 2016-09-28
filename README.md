@@ -10,7 +10,7 @@ $ npm install --save-dev mokamok
 
 ## Getting Started
 
-Create a directory called `__tests__`, and add a test file `increment.spec.js`:
+Create a directory called `--tests--`, and add a test file `increment.spec.js`:
 
 ```javascript
 import increment from '../increment';
