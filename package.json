@@ -1,7 +1,11 @@
 {
   "name": "mokamok",
-  "version": "0.0.2",
-  "description": "",
+  "version": "0.0.3",
+  "description": "Zero configuration JavaScript Unit Testing with Mocha, Chai and Sinon",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ggyorfi/mokamok"
+  },
   "main": "index.js",
   "scripts": {
     "test": "node tests"
@@ -9,8 +13,8 @@
   "bin": {
     "mokamok": "bin/mokamok.js"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "Gabor Gyorfi",
+  "license": "MIT",
   "dependencies": {
     "babel-preset-latest": "^6.14.0",
     "babel-register": "^6.14.0",

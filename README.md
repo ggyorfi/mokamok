@@ -64,11 +64,11 @@ Stop mocking the file
 
   Options:
 
-    -h, --help     output usage information
-    -v, --version  output the version number
-    -m --automock  mock every module in the project automatically
-    -j --jsdom     use jsdom
-    -w --watch     watch for file changes
+    -h, --help      output usage information
+    -v, --version   output the version number
+    -m, --automock  mock every module in the project automatically
+    -j, --jsdom     use jsdom
+    -w, --watch     watch for file changes
 
 ```
 
