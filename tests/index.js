@@ -48,6 +48,7 @@ function readConfig(file) {
         }
         return config;
     } catch (err) {
+        console.log(err);
         return { tests: [{}] };
     }
 }
@@ -92,10 +93,10 @@ function next(idx) {
         process.stderr.write(chalk.red(chunk));
     });
 
-    testScript.onStart(childProcess);
+    var ctx = testScript.onStart(childProcess);
 
     childProcess.on('exit', function(code, signal) {
-        if (signal !== 'SIGTERM' && code !== 0) {
+        if (ctx ? !ctx.ok : code !== 0) {
             console.log(chalk.red('\nFailed.'));
             try {
                 fs.removeSync(LIBDIR);

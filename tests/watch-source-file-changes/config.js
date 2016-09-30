@@ -3,7 +3,7 @@ var fs = require('fs-extra');
 
 var pass;
 var sourceFileName = __dirname + '/test.js';
-var sourceFile = fs.readFileSync(sourceFileName);
+var sourceFile = fs.readFileSync(sourceFileName).toString();
 
 
 module.exports = {
@@ -20,24 +20,39 @@ module.exports = {
     ],
 
     onStart: function (childProcess) {
+        var ctx = { ok: false };
         pass = 1;
         childProcess.stdout.on('data', function (chunk) {
             switch (pass) {
                 case 1:
-                    if (chunk.trim().indexOf('1 passing') === 0) {
+                    if (chunk.indexOf('1 failing') !== -1) {
                         setTimeout(function () {
-                            fs.writeFileSync(sourceFileName, sourceFile);
+                            fs.writeFileSync(sourceFileName, sourceFile.replace('return 2;', 'return 1;'));
+                            pass++;
                         }, 1000);
-                        pass++;
+                    }
+                    if (chunk.indexOf('1 passing') !== -1) {
+                        setTimeout(function () {
+                            childProcess.kill();
+                        }, 1000);
                     }
                     break;
                 case 2:
-                    if (chunk.trim().indexOf('1 passing') === 0) {
+                    if (chunk.indexOf('1 passing') !== -1) {
+                        fs.writeFileSync(sourceFileName, sourceFile);
+                        ctx.ok = true;
                         childProcess.kill();
+                    }
+                    if (chunk.indexOf('1 failing') !== -1) {
+                        fs.writeFileSync(sourceFileName, sourceFile);
+                        setTimeout(function () {
+                            childProcess.kill();
+                        }, 1000);
                     }
                     break;
             }
         });
+        return ctx;
     },
 
 }

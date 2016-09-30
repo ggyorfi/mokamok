@@ -1,7 +1,7 @@
 describe("Watch the test files", () => {
 
     it("should run twice", () => {
-        // NOOP
+        expect(1).to.equal(2);
     });
 
 });

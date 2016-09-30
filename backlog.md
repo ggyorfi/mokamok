@@ -1,6 +1,5 @@
 # Backlog
 
-- Documentation (1)
 - Coverage report (13)
 - React support (3)
 - Snapshot testing (1)
