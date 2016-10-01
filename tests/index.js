@@ -48,8 +48,10 @@ function readConfig(file) {
         }
         return config;
     } catch (err) {
+        if (err.message.match(/Cannot find module.*\/config/)) {
+            return { tests: [{}] };
+        }
         console.log(err);
-        return { tests: [{}] };
     }
 }
 
