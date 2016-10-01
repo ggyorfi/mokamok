@@ -1,5 +1,13 @@
 # Change Log
 
+
+## [0.0.4] - 2016-09-29
+
+### Fixed
+- error when watch quits on initial run with failing test
+- error when source file was not reloaded in watch mode
+
+
 ## [0.0.3] - 2016-09-29
 
 ### Fixed
