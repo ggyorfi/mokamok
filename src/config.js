@@ -4,9 +4,11 @@ import defaultOptions from './default-options.json';
 import pkg from '../package.json';
 
 const availableOptions = [
-    [ 'm',  'automock', 'mock every module in the project automatically' ],
-    [ 'j',  'jsdom', 'use jsdom' ],
-    [ 'w',  'watch', 'watch for file changes' ],
+    [ 'm', 'automock', 'mock every module in the project automatically' ],
+    [ 'j', 'jsdom', 'use jsdom' ],
+    [ 'w', 'watch', 'watch for file changes' ],
+    [ 'c', 'coverage', 'generate a code coverage report' ],
+    [ null, 'no-babel', 'disable babel support' ],
 ];
 
 
@@ -15,7 +17,7 @@ program.version(pkg.version, '-v, --version');
 
 for (var i = 0; i < availableOptions.length; i++) {
     const o = availableOptions[i];
-    program.option(`-${o[0]}, --${o[1]}`, o[2]);
+    program.option(o[0] ? `-${o[0]}, --${o[1]}` : `--${o[1]}`, o[2]);
 }
 
 

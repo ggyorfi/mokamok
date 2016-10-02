@@ -69,6 +69,7 @@ Stop mocking the file
     -m, --automock  mock every module in the project automatically
     -j, --jsdom     use jsdom
     -w, --watch     watch for file changes
+    -c, --coverage  generate a code coverage report
 
 ```
 

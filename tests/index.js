@@ -7,7 +7,6 @@ var only = process.argv[2];
 // copy source
 var LIBDIR = __dirname + '/.tmp';
 fs.emptyDirSync(LIBDIR);
-fs.copySync(__dirname + '/../index.js', LIBDIR + '/index.js');
 fs.copySync(__dirname + '/../package.json', LIBDIR + '/package.json');
 fs.copySync(__dirname + '/../lib', LIBDIR + '/lib');
 

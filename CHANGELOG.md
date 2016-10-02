@@ -1,7 +1,13 @@
 # Change Log
 
 
-## [0.0.4] - 2016-09-29
+## [Unreleased]
+
+### Changed
+- precompile source files
+
+
+## [0.0.4] - 2016-10-01
 
 ### Fixed
 - error when watch quits on initial run with failing test
