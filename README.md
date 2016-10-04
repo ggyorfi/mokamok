@@ -46,6 +46,14 @@ Run the test:
 $ npm test
 ```
 
+## Documentation
+
+* [Mokamok](https://github.com/ggyorfi/mokamok/wiki)
+* [Mocha](https://mochajs.org)
+* [Chai](http://chaijs.com/api/bdd/)
+* [Sinon](http://sinonjs.org/docs/)
+* [sinon-chai](https://github.com/domenic/sinon-chai)
+
 ## Mokamok API
 
 #### `mokamok.mock(name, [mock])`
@@ -64,12 +72,14 @@ Stop mocking the file
 
   Options:
 
-    -h, --help      output usage information
-    -v, --version   output the version number
-    -m, --automock  mock every module in the project automatically
-    -j, --jsdom     use jsdom
-    -w, --watch     watch for file changes
-    -c, --coverage  generate a code coverage report
+    -h, --help                   output usage information
+    -v, --version                output the version number
+    -m, --automock               mock every module in the project automatically
+    -j, --jsdom                  use jsdom
+    -w, --watch                  watch for file changes
+    -c, --coverage               generate a code coverage report
+    -d, --test-directory <name>  test directory name
+    -B, --no-babel               disable babel support
 
 ```
 

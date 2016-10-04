@@ -1,5 +1,8 @@
 {
     "automock": false,
     "jsdom": false,
-    "watch": false
+    "watch": false,
+    "babel": true,
+    "coverage": false,
+    "testDirectory": "--tests--"
 }

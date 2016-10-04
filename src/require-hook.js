@@ -1,10 +1,16 @@
 import path from 'path';
 import Module from 'module';
 import { mockObject } from './automock';
-import { addDependency, getMock } from './mokamok';
+import { setTestFile, addDependency, getMock } from './mokamok';
 import { options } from './config';
+import { cleanUp as cleanUpAutomock, reset as resetAutomock } from './automock';
+import { cleanUp as cleanUpMokamok } from './mokamok';
+import { cleanUp as cleanUpRequireHook } from './require-hook';
+
 
 const rootPath = path.resolve('.');
+const testDir = `/${options.testDirectory}/`;
+
 
 let _load = null;
 let cache = {};
@@ -13,6 +19,15 @@ let deps = {};
 
 function load(request, parent, isMain) {
     const modulePath = Module._resolveFilename(request, parent, isMain);
+
+    const isTestFile = modulePath.indexOf(testDir) !== -1;
+
+    if (isTestFile) {
+        cleanUpMokamok();
+        cleanUpAutomock();
+        cleanUp();
+        setTestFile(modulePath);
+    }
 
     let module = _load(request, parent, isMain);
 
@@ -24,11 +39,10 @@ function load(request, parent, isMain) {
         return cache[modulePath];
     }
 
-    const projectFile = modulePath.indexOf(rootPath) === 0 &&
-        modulePath.indexOf('/node_modules/') === -1 &&
-        modulePath.indexOf('/--test--/') === -1;
+    const isProjectFile = modulePath.indexOf(rootPath) === 0 &&
+        modulePath.indexOf('/node_modules/') === -1 && !isTestFile;
 
-    if (projectFile) {
+    if (isProjectFile) {
         addDependency(modulePath);
         const dep = deps[parent.id] || (deps[parent.id] = []);
         dep.push(modulePath);
@@ -40,7 +54,7 @@ function load(request, parent, isMain) {
         return module;
     }
 
-    var autoMock = options.automock && projectFile;
+    var autoMock = options.automock && isProjectFile;
 
     if (mock || autoMock) {
         if (mock  && mock.mock) {
@@ -62,6 +76,7 @@ export function registerRequireHook() {
     }
 }
 
+
 export function uncache(name) {
     delete cache[name];
     delete Module._cache[name];
@@ -73,6 +88,7 @@ export function uncache(name) {
     }
     delete deps[name];
 }
+
 
 export function cleanUp() {
     cache = {};

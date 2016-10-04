@@ -1,6 +1,7 @@
 var fs = require('fs-extra');
 var exec = require('child_process').exec;
 var chalk = require('chalk');
+var jsdiff = require('diff');
 
 var only = process.argv[2];
 
@@ -86,11 +87,43 @@ function next(idx) {
         cwd: test.path,
     });
 
+    childProcess._stdout = '';
+    childProcess._stderr = '';
+
+    childProcess._testSnapshot = function(name, value) {
+        var oldValue;
+        var fname = test.path + '/' + name + '.snap';
+        try {
+            oldValue = fs.readFileSync(fname, 'utf8').toString();
+        } catch (err) {
+            oldValue = null;
+        }
+        value = value.replace(/\(\d*m?s\)/g, '(0ms)');
+        if (oldValue === null) {
+            fs.writeFileSync(fname, value, 'utf8');
+        } else if (oldValue !== value) {
+            console.log(chalk.red('Snapshot test failed:'));
+            var diff = jsdiff.diffLines(oldValue, value);
+            diff.forEach(function (part) {
+                var color = part.added ? 'red' : (part.removed ? 'green' : 'grey');
+                var sign = part.added ? '\n+' : (part.removed ? '\n-' : '\n ');
+                process.stdout.write(chalk[color](('\n' + part
+                    .value.replace(/\n$/, '')).replace(/\n/gm, sign)));
+            });
+            childProcess.kill();
+        }
+    }
+
     childProcess.stdout.on('data', function (chunk) {
+        childProcess._stdout += chunk;
         process.stdout.write(chunk);
+        if (chunk.trim() === 'Done') {
+            childProcess.emit('done');
+        }
     });
 
     childProcess.stderr.on('data', function (chunk) {
+        childProcess._stderr += chunk;
         process.stderr.write(chalk.red(chunk));
     });
 

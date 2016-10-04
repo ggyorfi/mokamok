@@ -1,10 +1,17 @@
 # Change Log
 
 
-## [Unreleased]
+## [0.1.0] - 2016-10-05
+
+### Added
+- coverage report
+- configurable test folder name
+- configurable babel support
 
 ### Changed
 - precompile source files
+- run all test in one go
+- update documentation
 
 
 ## [0.0.4] - 2016-10-01

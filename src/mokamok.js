@@ -1,9 +1,11 @@
 import path from 'path';
 
+
 let deps = {};
 let mocks = {};
 let testFile = null;
 let testDir = null;
+
 
 export function getMock(name) {
     return mocks[name];
@@ -16,14 +18,10 @@ export function setTestFile(fileName) {
 }
 
 
-export function getTestFile() {
-    return testFile;
-}
-
-
 export function addDependency(modulePath) {
     deps[modulePath] = testFile;
 }
+
 
 export function getDependency(modulePath) {
     return deps[modulePath];
@@ -50,10 +48,12 @@ export function cleanUp() {
     testDir = null;
 }
 
+
 function getMockName(name) {
     const fileName = path.normalize(`${testDir}/${name}`);
     return require.resolve(fileName);
 }
+
 
 global.mokamok = {
 

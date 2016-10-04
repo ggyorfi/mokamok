@@ -1,20 +1,24 @@
 import fs from 'fs';
 import path from 'path';
-import runTest from './run-test';
+import { addTestFile, runTests }from './run-test';
 import { removeDependencies, getDependency } from './mokamok';
 import { uncache } from './require-hook';
+import { options } from './config';
 
 function updateTest(filePath) {
     removeDependencies(filePath);
-    runTest(filePath).catch(err => {
-        // IGNORE
+    addTestFile(filePath);
+    runTests().then(() => {
+        console.log('Done');
+    }).catch(err => {
+        console.log('Done');
     });
 }
 
 export default function watch() {
     fs.watch('.', { recursive: true }, (eventType, fileName) => {
         const filePath = path.resolve(fileName);
-        if (filePath.indexOf('/--tests--/') !== -1) {
+        if (filePath.indexOf(`/${options.testDirectory}/`) !== -1) {
             uncache(filePath);
             updateTest(filePath);
         } else {

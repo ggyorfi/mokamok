@@ -1,21 +1,33 @@
 import Mocha from 'mocha';
 import path from 'path';
-import { setTestFile } from './mokamok';
+
+
+const initPath = path.normalize(`${__dirname}/init-test.js`);
+
+
+let mocha = null;
+
 
 function addFile(mocha, filePath) {
     delete require.cache[filePath];
     mocha.addFile(filePath);
 }
 
-export default function runTest(testFile, callback) {
-    return new Promise((resolve, reject) => {
-        const initPath = path.normalize(`${__dirname}/init-test.js`);
-        const testPath = path.resolve(testFile);
-        setTestFile(testPath);
-        const mocha = new Mocha();
+
+export function addTestFile(testFile) {
+    const testPath = path.resolve(testFile);
+    if (!mocha) {
+        mocha = new Mocha();
         addFile(mocha, initPath);
-        addFile(mocha, testPath);
+    }
+    addFile(mocha, testPath);
+};
+
+
+export function runTests() {
+    return new Promise((resolve, reject) => {
         mocha.run(failures => {
+            mocha = null;
             if (failures > 0) {
                 reject(failures);
             } else {
