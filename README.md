@@ -1,3 +1,7 @@
+[![npm version](https://badge.fury.io/js/mokamok.svg)](https://badge.fury.io/js/mokamok)
+[![Build Status](https://travis-ci.org/ggyorfi/mokamok.svg?branch=master)](https://travis-ci.org/ggyorfi/mokamok)
+![Dependencies](https://david-dm.org/ggyorfi/mokamok.svg)
+
 # Mokamok
 
 Zero configuration JavaScript Unit Testing with Mocha, Chai and Sinon

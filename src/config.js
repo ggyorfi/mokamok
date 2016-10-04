@@ -38,6 +38,7 @@ try {
 
 const parsedOptions = {};
 
+
 for (var i = 0; i < availableOptions.length; i++) {
     const key = availableOptions[i][1].split(' ')[0].replace(/-./, s => s[1].toUpperCase());
     if (program.hasOwnProperty(key)) {
@@ -45,8 +46,10 @@ for (var i = 0; i < availableOptions.length; i++) {
     }
 }
 
+
 if (program.babel === false) {
     parsedOptions.babel = false;
 }
+
 
 export const options = Object.assign(defaultOptions, rc, parsedOptions);

@@ -23,6 +23,7 @@
     "babel-preset-latest": "^6.14.0",
     "babel-register": "^6.14.0",
     "chai": "^3.5.0",
+    "chokidar": "^1.6.0",
     "commander": "^2.9.0",
     "istanbul": "^0.4.5",
     "jsdom": "^9.4.5",

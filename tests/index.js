@@ -1,9 +1,10 @@
 var fs = require('fs-extra');
-var exec = require('child_process').exec;
+var spawn = require('child_process').spawn;
 var chalk = require('chalk');
 var jsdiff = require('diff');
 
 var only = process.argv[2];
+var cwd = process.cwd();
 
 // copy source
 var LIBDIR = __dirname + '/.tmp';
@@ -63,6 +64,7 @@ function next(idx) {
         } catch (err) {
             // NOOP
         }
+        process.chdir(cwd);
         return;
     }
 
@@ -79,13 +81,14 @@ function next(idx) {
         }
     }
 
-    var cmd = 'node ' + LIBDIR + ' ' + testScript.params;
+    var params = testScript.params.split(' ');
+    params.unshift(LIBDIR);
 
     console.log(chalk.green('\n' + test.name + '$ mokamok ' + testScript.params));
 
-    var childProcess = exec(cmd, {
-        cwd: test.path,
-    });
+    process.chdir(test.path);
+
+    var childProcess = spawn('node', params);
 
     childProcess._stdout = '';
     childProcess._stderr = '';
@@ -115,6 +118,7 @@ function next(idx) {
     }
 
     childProcess.stdout.on('data', function (chunk) {
+        chunk = chunk.toString();
         childProcess._stdout += chunk;
         process.stdout.write(chunk);
         if (chunk.trim() === 'Done') {
@@ -123,6 +127,7 @@ function next(idx) {
     });
 
     childProcess.stderr.on('data', function (chunk) {
+        chunk = chunk.toString();
         childProcess._stderr += chunk;
         process.stderr.write(chalk.red(chunk));
     });
