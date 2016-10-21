@@ -54,7 +54,7 @@ function load(request, parent, isMain) {
         return module;
     }
 
-    var autoMock = options.automock && isProjectFile;
+    const autoMock = options.automock && isProjectFile;
 
     if (mock || autoMock) {
         if (mock  && mock.mock) {
@@ -82,7 +82,7 @@ export function uncache(name) {
     delete Module._cache[name];
     const dep = deps[name];
     if (dep) {
-        for (var i = 0; i < dep.length; i++) {
+        for (let i = 0; i < dep.length; i++) {
             uncache(dep[i]);
         }
     }

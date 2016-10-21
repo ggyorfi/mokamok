@@ -1,25 +1,37 @@
-import chai from 'chai';
-import sinonChai from 'sinon-chai';
-import sinon from 'sinon';
+import {} from './mocha';
 import watch from './watch';
 import runAllTest from './run-all-tests';
 import { options } from './config';
 import { registerRequireHook } from './require-hook';
 import coverage from './coverage';
 
-global.sinon = sinon;
-global.expect = chai.expect;
-chai.use(sinonChai);
+
+const plugins = [];
+const availablePlugins = [
+    'mokamok-react'
+];
+
+
+for (let i = 0; i < availablePlugins.length; i++) {
+    const plugin = availablePlugins[i];
+    try {
+        plugins.push(require(plugin));
+    } catch (err) {
+        // NOOP
+    }
+}
 
 
 if (options.babel) {
     const babelRegister = require('babel-register');
-    const presets = [
-        require.resolve('babel-preset-latest'),
-    ];
-    const plugins = [];
+    const config = {
+        presets: [
+            require.resolve('babel-preset-latest'),
+        ],
+        plugins: [],
+    };
     if (options.coverage) {
-        plugins.push([
+        config.plugins.push([
             require.resolve('babel-plugin-istanbul'), {
                 exclude: [
                     `**/${options.testDirectory}/**/*`,
@@ -28,11 +40,19 @@ if (options.babel) {
             },
         ]);
     }
-    babelRegister({ presets, plugins });
+    for (let i = 0; i < plugins.length; i++) {
+        plugins[i].initBabel(config);
+    }
+    babelRegister(config);
 }
 
 
 registerRequireHook();
+
+
+for (let i = 0; i < plugins.length; i++) {
+    plugins[i].init(options);
+}
 
 
 runAllTest().then(() => {
@@ -45,11 +65,11 @@ runAllTest().then(() => {
         console.log('Done');
     }
 }).catch((err) => {
+    console.log(err);
+    console.log('\nDone');
     if (options.watch) {
-        console.log('Done');
         watch();
     } else {
-        console.log('Done');
-        process.exit(err);
+        process.exit(1);
     }
 });

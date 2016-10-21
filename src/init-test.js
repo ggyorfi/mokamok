@@ -1,18 +1,19 @@
 import { options } from './config';
 
-
 let jsDomCleanUp = null;
 let sandbox = null;
+let jsdom = null;
 
 
-before(function () {
-    if (options.jsdom) {
-        jsDomCleanUp = require('jsdom-global')();
-    }
-});
+if(options.jsdom) {
+    jsdom = require('jsdom-global');
+}
 
 
 beforeEach(() => {
+    if (jsdom) {
+        jsDomCleanUp = jsdom();
+    }
     sandbox = sinon.sandbox.create({
         injectInto: mokamok,
         properties: ["spy", "stub", "mock", "clock", "server", "requests"],
@@ -21,9 +22,10 @@ beforeEach(() => {
     });
 });
 
+
 afterEach(function () {
     sandbox.restore();
-    if (options.jsdom) {
+    if (jsdom) {
         jsDomCleanUp();
     }
 });

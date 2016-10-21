@@ -6,6 +6,19 @@ var jsdiff = require('diff');
 var only = process.argv[2];
 var cwd = process.cwd();
 
+function linkModule(name) {
+    try {
+        fs.symlinkSync(PACKAGES + '/' + name, NODE_MODULES + '/' + name, 'dir');
+    } catch (err) {
+        // NOOP
+    }
+}
+
+// link modules
+var NODE_MODULES = __dirname + '/../node_modules';
+var PACKAGES = __dirname + '/../packages';
+var packages = [];
+
 // copy source
 var LIBDIR = __dirname + '/.tmp';
 fs.emptyDirSync(LIBDIR);
@@ -81,6 +94,10 @@ function next(idx) {
         }
     }
 
+    if (testScript.packages) {
+        testScript.packages.forEach(package => linkModule(package));
+    }
+
     var params = testScript.params.split(' ');
     params.unshift(LIBDIR);
 
@@ -143,6 +160,13 @@ function next(idx) {
                 // NOOP
             }
             process.exit(code);
+        }
+        if (testScript.packages) {
+            try {
+                testScript.packages.forEach(package => fs.unlinkSync(NODE_MODULES + '/' + package));
+            } catch (err) {
+                // NOOP
+            }
         }
         try {
             fs.unlinkSync(test.path + '/.mokamokrc');

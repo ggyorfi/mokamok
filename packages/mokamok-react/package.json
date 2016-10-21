@@ -1,0 +1,27 @@
+{
+  "name": "mokamok-react",
+  "version": "0.0.1",
+  "description": "JavaScript Testing utilities for React",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ggyorfi/mokamok"
+  },
+  "main": "lib/index.js",
+  "scripts": {
+    "test": "node tests",
+    "build": "../../node_modules/.bin/babel src --presets latest,react --out-dir lib --copy-files",
+    "watch": "../../node_modules/.bin/babel src --presets latest,react --out-dir lib --copy-files --source-maps inline --watch",
+    "prepublish": "npm run build"
+  },
+  "author": "Gabor Gyorfi",
+  "license": "MIT",
+  "dependencies": {
+    "babel-preset-react": "^6.16.0",
+    "chai-jquery": "^2.0.0",
+    "jquery": "^3.1.1",
+    "react": "^15.3.2",
+    "react-addons-test-utils": "^15.3.2",
+    "react-dom": "^15.3.2",
+    "zepto": "^1.2.0"
+  }
+}

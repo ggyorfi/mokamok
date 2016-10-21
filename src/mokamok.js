@@ -30,9 +30,9 @@ export function getDependency(modulePath) {
 
 export function removeDependencies(testFile) {
     const newDeps = {};
-    for (var key in deps) {
+    for (let key in deps) {
         if (deps.hasOwnProperty(key)) {
-            var fname = deps[key];
+            const fname = deps[key];
             if (fname !== testFile) {
                 newDeps[key] = fname;
             }

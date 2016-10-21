@@ -17,7 +17,7 @@ const availableOptions = [
 program.version(pkg.version, '-v, --version');
 
 
-for (var i = 0; i < availableOptions.length; i++) {
+for (let i = 0; i < availableOptions.length; i++) {
     const o = availableOptions[i];
     program.option(o[0] ? `-${o[0]}, --${o[1]}` : `--${o[1]}`, o[2]);
 }
@@ -39,7 +39,7 @@ try {
 const parsedOptions = {};
 
 
-for (var i = 0; i < availableOptions.length; i++) {
+for (let i = 0; i < availableOptions.length; i++) {
     const key = availableOptions[i][1].split(' ')[0].replace(/-./, s => s[1].toUpperCase());
     if (program.hasOwnProperty(key)) {
         parsedOptions[key] = program[key];

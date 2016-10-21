@@ -17,9 +17,9 @@ export function mockValue(value) {
 
 
 export function mockObject(obj) {
-    var stub = {};
-    var propNames = Object.getOwnPropertyNames(obj);
-    for (var i = 0; i < propNames.length; i++) {
+    const stub = {};
+    const propNames = Object.getOwnPropertyNames(obj);
+    for (let i = 0; i < propNames.length; i++) {
         const key = propNames[i];
         stub[key] = mockValue(obj[key]);
     }
@@ -28,8 +28,8 @@ export function mockObject(obj) {
 
 
 export function mockArray(array) {
-    var stub = [];
-    for (var i = 0; i < array.length; i++) {
+    const stub = [];
+    for (let i = 0; i < array.length; i++) {
         stub[i] = mockValue(array[i]);
     }
     return stub;
@@ -38,7 +38,7 @@ export function mockArray(array) {
 
 export function mockClassOrFunction(fn) {
     // TODO: can we mock functions without mocking the constructor?
-    var stub = sinon.spy(function () {
+    const stub = sinon.spy(function () {
         return sinon.createStubInstance(fn);
     });
     Object.defineProperty(stub, 'instances', {
@@ -52,7 +52,7 @@ export function mockClassOrFunction(fn) {
 
 
 export function reset() {
-    for (var i = 0; i < stubs.length; i++) {
+    for (let i = 0; i < stubs.length; i++) {
         stubs[i].reset();
     }
 };

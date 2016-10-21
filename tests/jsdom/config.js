@@ -10,6 +10,7 @@ module.exports = {
             params: '-j'
         },
         {
+            name: 'with-resource-file',
             rc: {
                 jsdom: true
             }
