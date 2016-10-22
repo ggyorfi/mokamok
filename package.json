@@ -9,7 +9,8 @@
   "main": "lib/index.js",
   "scripts": {
     "test": "node tests",
-    "build": "babel src --presets latest --out-dir lib --copy-files",
+    "build-react": "(cd packages/mokamok-react; npm run build)",
+    "build": "babel src --presets latest --out-dir lib --copy-files; npm run build-react",
     "watch": "babel src --presets latest --out-dir lib --copy-files --source-maps inline --watch",
     "prepublish": "npm run build"
   },
