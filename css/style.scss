@@ -1,0 +1,238 @@
+---
+# This is the Front Matter block
+---
+
+@import 'normalize';
+@import 'syntax';
+
+body {
+    margin: 0;
+    font-family: 'Source Sans Pro', sans-serif;
+    font-weight: 300;
+    font-size: 20px;
+    color: #666;
+}
+
+.page-wrap {
+    width: 980px;
+    margin: 0 auto;
+    position: relative;
+}
+
+.article-wrap {
+    padding: 20px 50px 50px 50px;
+    width: 980px;
+    margin: 0 auto;
+    position: relative;
+}
+
+a {
+    color: #19559A;
+    text-decoration: none;
+}
+
+h1, h2, h3, h4, h5 {
+    font: normal 24px Armata, sans-serif;
+    color: #19559A;
+}
+
+h2 {
+    font-size: 20px;
+    margin-top: 40px;
+}
+
+h3, h4, h5 {
+    font-size: 26px;
+    margin-top: 30px;
+}
+
+code {
+    color: #444;
+    font-size: 18px;
+}
+
+pre > code {
+    font-size: 14px;
+}
+
+a.anchor {
+    display: block;
+    position: relative;
+    top: -70px;
+    visibility: hidden;
+}
+
+nav {
+    position: fixed;
+    width: 230px;
+    height: 100%;
+    top: 0;
+    margin-top: 50px;
+    overflow-y: auto;
+
+    ul {
+        padding: 0px;
+
+        ul {
+            padding-left: 10px;
+
+            li {
+                list-style: none;
+                padding-bottom: 0;
+
+                a {
+                    font-size: 12px;
+                }
+            }
+        }
+    }
+
+    li {
+        list-style: none;
+        padding-bottom: 10px;
+    }
+
+    a {
+        font: normal 14px Armata, sans-serif;
+        line-height: 1.6em;
+    }
+}
+
+nav + article {
+    margin-left: 250px;
+}
+
+.logo {
+    font-family: Armata, sans-serif;
+    display: inline-block;
+    background: transparent url('../img/logo.svg') left center no-repeat;
+    background-size: contain;
+    height: 30px;
+    line-height: 30px;
+    color: #4A90E2;
+    padding-left: 40px;
+    font-size: 20px;
+    margin: 10px;
+}
+
+header {
+    background: #011B27;
+    height: 50px;
+    color: #FFF;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 100;
+
+    .page-wrap {
+        position: relative;
+    }
+
+    .logo {
+        margin-left: 10px;
+    }
+
+    a {
+        color: #FFF;
+        text-decoration: none;
+    }
+
+    ul {
+        margin: 0;
+        list-style: none;
+        position: absolute;
+        top: 0;
+        right: 10px;
+    }
+
+    li {
+        display: inline-block;
+        margin: 0 10px;
+        line-height: 50px;
+        font-weight: 100;
+    }
+}
+
+main {
+    padding-top: 50px;
+
+}
+
+.splash {
+    background: #19559A;
+    text-align: center;
+    padding: 20px 0 35px 0;
+    font-size: 18px;
+    color: #FFF;
+
+    h1 {
+        margin: 0;
+    }
+
+    .logo {
+        font-size: 48px;
+        color: #FFF;
+        background-position: top center;
+        background-size: 100px;
+        padding: 140px 0 0 0;
+    }
+
+    .buttons {
+        font-family: Armata, sans-serif;
+        margin: 50px 0 20px 0;
+
+        a {
+            display: inline-block;
+            width: 150px;
+            background: #FF8533;
+            color: #FFF;
+            border-radius: 3px;
+            padding: 8px 20px;
+            margin: 0 10px;
+            font-weight: normal;
+
+            -webkit-box-shadow: 0px 2px 8px 0px rgba(0,0,0,0.35);
+            -moz-box-shadow: 0px 2px 8px 0px rgba(0,0,0,0.35);
+            box-shadow: 0px 2px 8px 0px rgba(0,0,0,0.35);
+
+            text-shadow: 1px 1px rgba(0,0,0, 0.35);
+        }
+    }
+
+}
+
+.third-column {
+    vertical-align: top;
+    display: inline-block;
+    width: 30%;
+
+    &:nth-child(2) {
+        margin: 0 4%;
+    }
+}
+
+.features {
+    margin-top: 50px;
+}
+
+footer {
+    margin-top: 100px;
+    background: #19559A;
+    min-height: 300px;
+    color: rgba(255, 255, 255, 0.5);
+    text-align: center;
+    padding-top: 20px;
+    font-size: 14px;
+}
+
+
+/* syntax highlight */
+
+pre.highlight {
+    background-color: #F0F0F0;
+    padding: 8px 10px;
+    border-radius: 3px;
+    border: 1px solid #DDD;
+    font-size: 14px;
+}
