@@ -23,7 +23,7 @@ layout: default
     * [sandbox.stub()](#api-sandbox-stub)
     * [sandbox.render()](#api-mokamok-render)
     * [sandbox.shallow()](#api-mokamok-shallow)
-    * [sandbox.stubEventHandlers()](#api-mokamok-stu-eEvent-handlers)
+    * [sandbox.stubEventHandlers()](#api-mokamok-stub-event-handlers)
 * [Command line options](#cli)
 
 </nav>
@@ -296,6 +296,26 @@ letter in a  React component.
 **Parameters:**
 
 - Component : *React.Component* - the component class
+
+
+# <a name="cli" class="anchor"></a>Command line options
+
+```
+Usage: index [options]
+
+  Options:
+
+    -h, --help                   output usage information
+    -v, --version                output the version number
+    -m, --automock               mock every module in the project automatically
+    -j, --jsdom                  use jsdom
+    -w, --watch                  watch for file changes
+    -c, --coverage               generate a code coverage report
+    -d, --test-directory <name>  test directory name
+    -B, --no-babel               disable babel support
+
+```
+
 
 </article>
 
