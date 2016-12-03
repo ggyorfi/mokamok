@@ -9,7 +9,7 @@ body {
     margin: 0;
     font-family: 'Source Sans Pro', sans-serif;
     font-weight: 300;
-    font-size: 20px;
+    font-size: 18px;
     color: #666;
 }
 
@@ -26,24 +26,27 @@ body {
     position: relative;
 }
 
+strong {
+    font: normal 16px Armata, sans-serif;
+}
+
 a {
     color: #19559A;
     text-decoration: none;
 }
 
 h1, h2, h3, h4, h5 {
+    margin-top: 40px;
     font: normal 24px Armata, sans-serif;
     color: #19559A;
 }
 
 h2 {
     font-size: 20px;
-    margin-top: 40px;
 }
 
 h3, h4, h5 {
-    font-size: 26px;
-    margin-top: 30px;
+    font-size: 16px;
 }
 
 code {
@@ -100,6 +103,12 @@ nav {
 
 nav + article {
     margin-left: 250px;
+    padding-bottom: 200px;
+
+    ul {
+        list-style: none;
+        padding-left: 1em;
+    }
 }
 
 .logo {
