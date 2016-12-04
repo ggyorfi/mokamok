@@ -1,6 +1,6 @@
 {
   "name": "mokamok",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Zero configuration JavaScript Unit Testing with Mocha, Chai and Sinon",
   "repository": {
     "type": "git",
