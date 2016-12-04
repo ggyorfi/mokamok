@@ -57,11 +57,11 @@ function getMockName(name) {
 
 global.mokamok = {
 
-    mock: function (name, mock) {
+    mock(name, mock) {
         mocks[getMockName(name)] = { mock };
     },
 
-    unmock: function (name) {
+    unmock(name) {
         mocks[getMockName(name)] = false;
     },
 

@@ -19,5 +19,15 @@
         "no-unused-vars": "warn",
         "constructor-super": "warn",
         "valid-typeof": "warn"
+    },
+    "globals": {
+        "sinon": true,
+        "chai": true,
+        "beforeEach": true,
+        "afterEach": true,
+        "it": true,
+        "sandbox": true,
+        "mokamok": true,
+        "jQuery": true
     }
 }

@@ -1,7 +1,6 @@
 import { options } from './config';
 
 let jsDomCleanUp = null;
-let sandbox = null;
 let jsdom = null;
 
 
@@ -14,17 +13,12 @@ beforeEach(() => {
     if (jsdom) {
         jsDomCleanUp = jsdom();
     }
-    sandbox = sinon.sandbox.create({
-        injectInto: mokamok,
-        properties: ["spy", "stub", "mock", "clock", "server", "requests"],
-        useFakeTimers: true,
-        useFakeServer: true
-    });
+    global.sandbox = sinon.sandbox.create();
 });
 
 
 afterEach(function () {
-    sandbox.restore();
+    global.sandbox.restore();
     if (jsdom) {
         jsDomCleanUp();
     }

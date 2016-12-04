@@ -1,7 +1,11 @@
 # Change Log
 
+## [0.2.1] - 2016-10-21
 
-## [Unreleased]
+### Added
+- new documentation
+
+## [0.2.0] - 2016-10-21
 
 ### Added
 - sinon sandboxing support

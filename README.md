@@ -52,7 +52,7 @@ $ npm test
 
 ## Documentation
 
-* [Mokamok](https://github.com/ggyorfi/mokamok/wiki)
+* [Mokamok](https://ggyorfi.github.io/mokamok)
 * [Mocha](https://mochajs.org)
 * [Chai](http://chaijs.com/api/bdd/)
 * [Sinon](http://sinonjs.org/docs/)

@@ -1,5 +1,6 @@
-import TestUtils from 'react-addons-test-utils';
+import React from 'react';
 import ReactDOM from 'react-dom';
+import TestUtils from 'react-addons-test-utils';
 
 
 require('jsdom-global')();
@@ -193,7 +194,7 @@ export function init(options) {
             while (obj) {
                 Object.getOwnPropertyNames(obj).forEach(name => {
                     if (rx.test(name) && !stubs[name]) {
-                        stubs[name] = mokamok.stub(obj, name);
+                        stubs[name] = sandbox.stub(obj, name);
                     }
                 });
                 obj = obj.__proto__;
