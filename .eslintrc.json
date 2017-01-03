@@ -25,7 +25,9 @@
         "chai": true,
         "beforeEach": true,
         "afterEach": true,
+        "describe": true,
         "it": true,
+        "expect": true,
         "sandbox": true,
         "mokamok": true,
         "jQuery": true

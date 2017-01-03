@@ -1,4 +1,5 @@
 import path from 'path';
+import { uncache } from './require-hook';
 
 
 let deps = {};
@@ -50,19 +51,36 @@ export function cleanUp() {
 
 
 function getMockName(name) {
-    const fileName = path.normalize(`${testDir}/${name}`);
-    return require.resolve(fileName);
+    if (name[0] === '.') {
+        const fileName = path.normalize(`${testDir}/${name}`);
+        return require.resolve(fileName);
+    }
+    return require.resolve(name);
 }
 
 
 global.mokamok = {
 
     mock(name, mock) {
-        mocks[getMockName(name)] = { mock };
+        const path = getMockName(name);
+        if (process.env.TRACE_MOCK && path.indexOf(process.env.TRACE_MOCK) !== -1) {
+            console.log("mock:", path);
+        }
+        mocks[path] = { mock };
+        uncache(path);
     },
 
     unmock(name) {
-        mocks[getMockName(name)] = false;
+        const path = getMockName(name);
+        if (process.env.TRACE_MOCK && path.indexOf(process.env.TRACE_MOCK) !== -1) {
+            console.log("unmock:", path);
+        }
+        mocks[path] = false;
+        uncache(path);
+    },
+
+    forceReload(name) {
+        uncache(getMockName(name));
     },
 
 };

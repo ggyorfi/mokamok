@@ -14,6 +14,12 @@ $ npm install --save-dev mokamok
 
 ## Getting Started
 
+In order to use the latest babel preset we need to install it:
+
+```bash
+$ npm install --save-dev babel-preset-latest
+```
+
 Create a directory called `--tests--`, and add a test file `increment.spec.js`:
 
 ```javascript

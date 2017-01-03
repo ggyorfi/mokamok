@@ -1,5 +1,36 @@
 # Change Log
 
+## [0.3.0] - 2017-01-03
+
+### Added
+- make the babel presets and plugins configurable
+- snapshot testing for react
+- mokamok.forceReload(name) to force modules to be reloaded in watch mode
+- coverage-exclude config option
+- babel-presets configuration options
+- babel-plugins configuration options
+- update-snapshots configuration options
+- sinon-stub-promise support
+- env variable TRACE_MOCK={filter} to list mocks
+- wathc mode key commands: a - run all tests, u - update snapshots
+
+### Changed
+- replace react node reRender() with the setProps() function
+- babel preset is no longer a dependency, automatically loads the latest preset
+- the way how the node_moduels forlder is ignored in the glog in order to
+  improve performance
+- use fs.watch on darwin to improve watch performance
+
+### Fixed
+- error when react node toHTML() converted all tag names to upper case
+- error when jsdom reload confused react, jsdom is not reloaded after the tests
+  any more
+- error when babel import is housted over mokamok.mock()
+- error when coverage report was not fully generated
+- error when momamok.mock() can't mock modules in the node_module folder
+- error when webpack css loader fails in the tests
+- error when mocked modules was not uncached after the test
+
 ## [0.2.1] - 2016-10-21
 
 ### Added

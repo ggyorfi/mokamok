@@ -105,7 +105,11 @@ function next(idx) {
 
     process.chdir(test.path);
 
-    var childProcess = spawn('node', params);
+    var childProcess = spawn('node', params, { stdio: [
+        process.stdin,
+        'pipe',
+        'pipe'
+    ]});
 
     childProcess._stdout = '';
     childProcess._stderr = '';

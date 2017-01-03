@@ -37,4 +37,14 @@ describe("react", () => {
         expect(node.find('>a')).have.attr('href', 'http://github.com/ggyorfi/mokamok');
     });
 
+    // it("should save snapshot", () => {
+    //     const node = mokamok.render(<Test text="React" />);
+    //     expect(node).to.match.snapshot();
+    // });
+    //
+    // it("should save an other snapshot", () => {
+    //     const node = mokamok.render(<Test text="`React`" />);
+    //     expect(node).to.match.snapshot();
+    // });
+
 });

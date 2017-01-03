@@ -1,0 +1,22 @@
+exports['react should save snapshot'] = `<div style="background: rgb(255, 0, 0);">
+  <a href="http://github.com/ggyorfi/mokamok">Mokamok</a>
+  <span>React</span>
+  <div>
+    <ul>
+      <li>A</li>
+      <li>B</li>
+      <li>C</li>
+    </ul>
+  </div>
+</div>`;
+exports['react should save an other snapshot'] = `<div style="background: rgb(255, 0, 0);">
+  <a href="http://github.com/ggyorfi/mokamok">Mokamok</a>
+  <span>\`React\`</span>
+  <div>
+    <ul>
+      <li>A</li>
+      <li>B</li>
+      <li>C</li>
+    </ul>
+  </div>
+</div>`;

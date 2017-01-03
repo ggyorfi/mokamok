@@ -1,3 +1,4 @@
+import fs from 'fs';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import TestUtils from 'react-addons-test-utils';
@@ -29,8 +30,9 @@ function toJSON(el) {
 }
 
 
-function toHTML(el, indent) {
-    let html = `${indent}<${el.tagName}`;
+function toHTML(el, indent = '') {
+    const tagName = el.tagName.toLowerCase();
+    let html = `${indent}<${tagName}`;
     const hasProps = el.attributes && el.attributes.length;
     if (hasProps) {
         for (let i = 0; i < el.attributes.length; i++) {
@@ -61,7 +63,7 @@ function toHTML(el, indent) {
                     indent2}${child.data}${textOnly ? '' : '\n'}`;
             }
         }
-        return `${html}${textOnly ? '' : indent}</${el.tagName}>\n`;
+        return `${html}${textOnly ? '' : indent}</${tagName}>\n`;
     }
     return `${html}${hasProps ? ' ' : ''}/>\n`;
 }
@@ -120,9 +122,15 @@ $.fn.simulate = function simulate(event, ...args) {
             }
         }
         if (isShallow) {
-            const handler = el[`on${event}`];
+            const handler = el[`handle${event}`] || el[`on${event}`];
             if (handler) {
                 handler(...args);
+            } else {
+                // TODO:  huh, its ugly, find a better way to
+                //        simulate normal DOM events
+                const e = document.createEvent("Events");
+                e.initEvent(event, true, true);
+                el.dispatchEvent(e);
             }
         } else {
             TestUtils.Simulate[event](el, ...args);
@@ -131,45 +139,109 @@ $.fn.simulate = function simulate(event, ...args) {
 };
 
 
-export function init(options) {
+export function init(ctx) {
+    const { options, getCurrentTest, events } = ctx;
     chai.use(require('chai-jquery'));
+    const Assertion = chai.Assertion;
+    Assertion.addChainableMethod('match');
+    Assertion.addMethod('snapshot', function (testName, update) {
+        if (testName === true && arguments.length < 2) {
+            testName = null;
+            update = true;
+        }
+
+        if (options.updateSnapshots) {
+            update = true;
+        }
+
+        const obj = this._obj;
+        const actual = obj.toHTML().trim();
+        const test = getCurrentTest();
+        const fname = test.file + '.snap';
+        const id = test.fullTitle() + (testName || '');
+
+        let snapshots = {};
+        let expected;
+        try {
+            snapshots = require(fname);
+            if (!update && snapshots[id]) {
+                expected = snapshots[id];
+            } else {
+                update = true;
+            }
+        } catch (err) {
+            update = true;
+        }
+
+        if (update) {
+            snapshots[id] = actual;
+            fs.writeFileSync(fname, Object.keys(snapshots).reduce((exp, key) => {
+                // TODO: - cache the snapshots
+                //       - collect the updates
+                //       - lazy async save
+                //       - uncache module on write
+                return `${exp}exports['${key}'] = \`${snapshots[key].replace(/`/g, '\\`')}\`;\n`;
+            }, ''));
+        } else {
+            this.assert(
+                actual === expected,
+                "expected snapshot to match",
+                "expected snapshot not to match",
+                expected,
+                actual,
+                true
+            );
+        }
+    });
+    const currentNodes = [];
     options.jsdom = true;
+    events.on('after-each', () => {
+        for (var i = 0; i < currentNodes.length; i++) {
+            ReactDOM.unmountComponentAtNode(currentNodes[i].parent()[0]);
+        }
+        currentNodes.length = 0;
+    });
+    const eventHandlerPatternRx = new RegExp( '^(?:on|handle)[A-Z_].*' ||
+        options.eventHandlerPattern);
     Object.assign(mokamok, {
 
         render(el) {
-            let node;
-            function render() {
-                let doc = TestUtils.renderIntoDocument(el);
-                if (doc) {
-                    node = $(ReactDOM.findDOMNode(doc));
-                    node.doc = doc;
-                } else {
-                    doc = TestUtils.renderIntoDocument(<div>{el}</div>);
-                    node = jQuery(ReactDOM.findDOMNode(doc).children[0]);
+            class PropChangeContainer extends React.Component {
+
+                constructor(props) {
+                    super(props);
+                    this.state = props;
                 }
-                node.reRender = function (props) {
-                    if (node.doc) {
-                        const nextProps = {};
-                        Object.assign(nextProps, node.doc.props, props);
-                        if (node.doc.componentWillReceiveProps) {
-                            node.doc.componentWillReceiveProps(nextProps);
-                        }
-                        Object.assign(node.doc.props, nextProps);
-                        node.doc.forceUpdate();
-                        return node;
-                    }
-                    el = React.cloneElement(el, props);
-                    return render();
-                };
-                node.toJSON = function() {
-                    return toJSON(node[0]);
-                };
-                node.toHTML = function() {
-                    return toHTML(node[0], '');
+
+                render() {
+                    return React.createElement(el.type, this.state);
                 }
-                return node;
+
             }
-            return render();
+
+            const container = TestUtils.renderIntoDocument(<PropChangeContainer {...el.props}/>);
+            const node = $(ReactDOM.findDOMNode(container));
+
+            try {
+                node.component = TestUtils.findRenderedComponentWithType(container, el.type);
+            } catch (err) {
+                // NOOP
+            }
+
+            node.setProps = function (props) {
+                container.setState(props);
+            };
+
+            node.toJSON = function() {
+                return toJSON(node[0]);
+            };
+
+            node.toHTML = function() {
+                return toHTML(node[0]);
+            }
+
+            currentNodes.push(node);
+            return node;
         },
 
         shallow(el) {
@@ -188,19 +260,17 @@ export function init(options) {
 
         stubEventHandlers(cl) {
             let obj = cl.prototype || cl;
-            options.eventHandlerPattern = '^on[A-Z_].*';
-            const rx = new RegExp(options.eventHandlerPattern);
             const stubs = {};
             while (obj) {
                 Object.getOwnPropertyNames(obj).forEach(name => {
-                    if (rx.test(name) && !stubs[name]) {
+                    if (eventHandlerPatternRx.test(name) && !stubs[name]) {
                         stubs[name] = sandbox.stub(obj, name);
                     }
                 });
                 obj = obj.__proto__;
             }
             return stubs;
-        }
+        },
 
     });
 };

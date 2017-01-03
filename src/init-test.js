@@ -1,25 +1,19 @@
 import { options } from './config';
-
-let jsDomCleanUp = null;
-let jsdom = null;
+import { events, setCurrentTest } from './context';
 
 
-if(options.jsdom) {
-    jsdom = require('jsdom-global');
+if (options.jsdom) {
+    require('jsdom-global')();
 }
 
 
-beforeEach(() => {
-    if (jsdom) {
-        jsDomCleanUp = jsdom();
-    }
+beforeEach(function () {
     global.sandbox = sinon.sandbox.create();
+    setCurrentTest(this.currentTest);
 });
 
 
 afterEach(function () {
+    events.emit('after-each');
     global.sandbox.restore();
-    if (jsdom) {
-        jsDomCleanUp();
-    }
 });

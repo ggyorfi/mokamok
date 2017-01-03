@@ -3,6 +3,9 @@
     "jsdom": false,
     "watch": false,
     "babel": true,
+    "babelPresets": [],
+    "babelPlugins": [],
     "coverage": false,
+    "coverageExclude": [],
     "testDirectory": "--tests--"
 }

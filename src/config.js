@@ -9,9 +9,18 @@ const availableOptions = [
     [ 'j', 'jsdom', 'use jsdom' ],
     [ 'w', 'watch', 'watch for file changes' ],
     [ 'c', 'coverage', 'generate a code coverage report' ],
+    [ 'X', 'coverage-exclude <globs>', 'exclude files from the coverage report', parseList ], 
     [ 'd', 'test-directory <name>', 'test directory name' ],
     [ 'B', 'no-babel', 'disable babel support' ],
+    [ 'P', 'babel-presets <presets>', 'Babel presets', parseList ],
+    [ 'p', 'babel-plugins <plugins>', 'Babel plugins', parseList ],
+    [ 'u', 'update-snapshots', 'Update snapshots' ],
 ];
+
+
+function parseList(p) {
+    return p.split(',');
+}
 
 
 program.version(pkg.version, '-v, --version');
@@ -19,7 +28,7 @@ program.version(pkg.version, '-v, --version');
 
 for (let i = 0; i < availableOptions.length; i++) {
     const o = availableOptions[i];
-    program.option(o[0] ? `-${o[0]}, --${o[1]}` : `--${o[1]}`, o[2]);
+    program.option(o[0] ? `-${o[0]}, --${o[1]}` : `--${o[1]}`, o[2], o[3]);
 }
 
 
